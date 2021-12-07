@@ -1,0 +1,25 @@
+{
+  "name": "project-07",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "watch": "nodemon ./src/server.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "bcrypt": "^5.0.1",
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mysql2": "^2.3.3",
+    "passport": "^0.5.0",
+    "passport-local": "^1.0.0",
+    "sequelize": "^6.12.0-beta.1"
+  }
+}
