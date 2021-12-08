@@ -12,10 +12,15 @@ module.exports = class Post extends Sequelize.Model {
           type: Sequelize.STRING(200),
           allowNull: false,
         },
+        nickname: {
+          type: Sequelize.STRING(),
+          allowNull: false,
+          unique: true,
+        },
       },
       {
         sequelize,
-        modelName: "Post",
+        modelName: "post",
         tableName: "posts",
         charset: "utf8mb4",
         collate: "utf8mb4_general_ci",

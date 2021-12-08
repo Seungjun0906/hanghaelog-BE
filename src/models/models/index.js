@@ -33,7 +33,7 @@
 const Sequelize = require("sequelize");
 const User = require("./user");
 const Comment = require("./comment");
-const Post = require("./Post");
+const Post = require("./post");
 const env = process.env.NODE_ENV || "development";
 const config = require("../config/config")[env];
 const db = {};

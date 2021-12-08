@@ -4,17 +4,43 @@ const {
 } = require("../../models/models");
 
 const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
+const passport = require("passport");
+const SECRETKEY = process.env.SECRET_KEY;
 
 async function httpLogin(req, res) {
-  const { email, password } = req.body;
-  const user = User.findOne({ where: { email, password } });
-  if (!user) {
-    return res
-      .status(400)
-      .json({ ok: false, msg: "이메일/비밀번호가 일치하지 않습니다" });
+  console.log(req); //임시
+  try {
+    passport.authenticate("local", (error, user, info) => {
+      // 유저의 존재여부 확인
+      if (error || !user) {
+        return res.status(400).json({
+          msg: info.msg,
+        });
+      }
+
+      // 유저가 있는 경우
+      req.login(user, { session: false }, (loginError) => {
+        if (loginError) {
+          console.log(loginError); //임시
+          return res.send(loginError);
+        }
+        // 로그인 성공인 경우 ,JWT토큰 생성 반환
+        const token = jwt.sign(
+          {
+            id: user.id,
+            nickname: user.nickname,
+          },
+          SECRETKEY
+        );
+        return res.json({ token });
+      });
+    })(req, res);
+  } catch (err) {
+    console.log(err);
   }
 
-  return res.status(200).json({ ok: true, msg: "" });
+  // return res.status(200).json({ ok: true, msg: "" });
 }
 
 async function httpAddUser(req, res) {
