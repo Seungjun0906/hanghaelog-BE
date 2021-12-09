@@ -8,8 +8,12 @@ const jwt = require("jsonwebtoken");
 const passport = require("passport");
 const SECRETKEY = process.env.SECRET_KEY;
 
+async function httpGetUser(req, res) {
+  const { id, nickname } = req.user;
+  res.status(200).json({ id: id, nickname: nickname });
+}
+
 async function httpLogin(req, res) {
-  console.log(req); //임시
   try {
     passport.authenticate("local", (error, user, info) => {
       // 유저의 존재여부 확인
@@ -22,7 +26,6 @@ async function httpLogin(req, res) {
       // 유저가 있는 경우
       req.login(user, { session: false }, (loginError) => {
         if (loginError) {
-          console.log(loginError); //임시
           return res.send(loginError);
         }
         // 로그인 성공인 경우 ,JWT토큰 생성 반환
@@ -33,7 +36,11 @@ async function httpLogin(req, res) {
           },
           SECRETKEY
         );
-        return res.json({ token });
+
+        return res.json({
+          token,
+          user: { id: user.id, nickname: user.nickname },
+        });
       });
     })(req, res);
   } catch (err) {
@@ -42,6 +49,8 @@ async function httpLogin(req, res) {
 
   // return res.status(200).json({ ok: true, msg: "" });
 }
+
+// 닉네임 아니면 이메일
 
 async function httpAddUser(req, res) {
   const { email, nickname, password, passwordCheck } = req.body;
@@ -82,6 +91,7 @@ async function httpAddUser(req, res) {
 }
 
 module.exports = {
+  httpGetUser,
   httpLogin,
   httpAddUser,
 };

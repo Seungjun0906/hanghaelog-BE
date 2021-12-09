@@ -42,8 +42,9 @@ async function httpAddPost(req, res) {
     });
 
     res.status(201).json({
-      ok: true,
+      code: 201,
       msg: "작성완료",
+      post: post,
     });
   } catch (err) {
     console.log(err);
@@ -104,6 +105,21 @@ async function httpDeletePost(req, res) {
 }
 
 // 댓글 CRUD
+async function httpGetComments(req, res) {
+  const { postId } = req.params;
+  try {
+    const comments = await Comment.findAll({
+      where: {
+        postId: postId,
+      },
+    });
+
+    res.status(200).json(comments);
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 async function httpAddComment(req, res) {
   const { comment } = req.body;
   const { postId } = req.params;
@@ -111,14 +127,68 @@ async function httpAddComment(req, res) {
 
   try {
     if (comment === null) return res.status(400).send();
-    await Comment.create({
+
+    const newComment = await Comment.create({
       comment: comment,
       nickname: nickname,
       postId: postId,
       userId: id,
     });
 
-    res.status(201).json({ ok: true, msg: "작성완료" });
+    res.status(201).json({ code: 201, msg: "작성완료", comment: newComment });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function httpEditComment(req, res) {
+  const { comment } = req.body;
+  const { postId, commentId } = req.params;
+  const { id } = req.user;
+  try {
+    const existingComment = await Comment.findOne({
+      where: { id: commentId, userId: id, postId: postId },
+    });
+
+    if (!existingComment) return res.status(400).send();
+
+    await Comment.update(
+      {
+        comment: comment,
+      },
+      {
+        where: {
+          id: commentId,
+          userId: id,
+          postId: postId,
+        },
+      }
+    );
+
+    res.status(204).json({
+      ok: true,
+      msg: "수정완료!",
+    });
+  } catch (err) {
+    console.log(err);
+  }
+}
+
+async function httpDeleteComment(req, res) {
+  const { postId, commentId } = req.params;
+  const { id } = req.user;
+  try {
+    const existingComment = await Comment.findOne({
+      where: { id: commentId, postId: postId, userId: id },
+    });
+
+    if (!existingComment) return res.status(400).send();
+
+    await Comment.destroy({
+      where: { id: commentId, postId: postId, userId: id },
+    });
+
+    res.status(204).send();
   } catch (err) {
     console.log(err);
   }
@@ -129,5 +199,8 @@ module.exports = {
   httpAddPost,
   httpEditPost,
   httpDeletePost,
+  httpGetComments,
   httpAddComment,
+  httpEditComment,
+  httpDeleteComment,
 };

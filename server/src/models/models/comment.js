@@ -8,7 +8,6 @@ module.exports = class Comment extends Sequelize.Model {
         nickname: {
           type: Sequelize.STRING(),
           allowNull: false,
-          unique: true,
         },
       },
 

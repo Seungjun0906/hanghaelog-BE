@@ -15,7 +15,6 @@ module.exports = class Post extends Sequelize.Model {
         nickname: {
           type: Sequelize.STRING(),
           allowNull: false,
-          unique: true,
         },
       },
       {
