@@ -12,7 +12,8 @@ const authRouter = require("./routes/auth/auth.route");
 const postRouter = require("./routes/posts/post.route");
 
 // origin: Front End ip or url
-app.use(cors({ origin: "http://localhost:3000" }));
+// app.use(cors({ origin: "http://localhost:3000" }));
+app.use("*", cors());
 
 app.use(express.static(path.join(__dirname, "..", "public")));
 app.use(express.urlencoded());

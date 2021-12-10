@@ -27,14 +27,17 @@ async function httpGetPosts(req, res) {
 }
 
 async function httpAddPost(req, res) {
-  const { content, imgUrl } = req.body;
+  const { content } = req.body;
+  const imgUrl = req.file.location;
+
   // passport middleware로 인해 req.user라는 객체가 생김
   // user.id
+
   const { id, nickname } = req.user;
   try {
     const post = await Post.create({
-      imgUrl,
-      content,
+      imgUrl: imgUrl,
+      content: content,
       userId: id,
       nickname: nickname,
     });
@@ -114,7 +117,13 @@ async function httpGetComments(req, res) {
       },
     });
 
-    res.status(200).json(comments);
+    const post = await Post.findOne({
+      where: {
+        id: postId,
+      },
+    });
+
+    res.status(200).json({ comments: comments, post: post });
   } catch (err) {
     console.log(err);
   }

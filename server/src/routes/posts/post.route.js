@@ -15,7 +15,7 @@ const {
 
 // POST CRUD
 postRouter.get("/", httpGetPosts);
-postRouter.post("/", authenticateUser(), httpAddPost);
+postRouter.post("/", upload.single("img"), authenticateUser(), httpAddPost);
 postRouter.put(
   "/:postId",
   upload.single("img"),
@@ -39,14 +39,14 @@ postRouter.delete(
 );
 
 // 사진 업로드
-postRouter.post(
-  "/upload",
-  upload.single("img"),
-  authenticateUser(),
-  (req, res) => {
-    console.log("S3 저장 정보", req.file);
+// postRouter.post(
+//   "/upload",
+//   upload.single("img"),
+//   authenticateUser(),
+//   (req, res) => {
+//     console.log("S3 저장 정보", req.file);
 
-    res.json({ imgUrl: req.file.location });
-  }
-);
+//     res.json({ imgUrl: req.file.location });
+//   }
+// );
 module.exports = postRouter;
