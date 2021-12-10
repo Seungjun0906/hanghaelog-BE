@@ -3,24 +3,22 @@ const { Post, Comment, sequelize } = require("../../models/models");
 async function httpGetPosts(req, res) {
   try {
     // 모든 포스트 (닉네임 포함)
-    // const posts = await Post.findAll({
-    //   attributes: {
-    //     include: [
-    //       sequelize.literal(
-    //         `(SELECT *, (select count(*) from comments as c where posts.id = c.postId) as numOfComments FROM post)`,
-    //         "numOfComments"
-    //       ),
-    //     ],
-    //   },
-    //   include: { model: User, attributes: ["nickname"] },
-    // });
+    const { offset } = req.query;
+    console.log(req.query);
+    console.log(offset);
+
+    if (offset === undefined || offset == 0 || offset == 1) {
+      const [posts] = await sequelize.query(
+        "SELECT *, (select count(*) from comments where posts.id = comments.postId ) AS numOfComments FROM posts order by id desc limit 2"
+      );
+      return res.status(200).json(posts);
+    }
+
     const [posts] = await sequelize.query(
-      "SELECT *, (select count(*) from comments where posts.id = comments.postId ) AS numOfComments FROM posts"
+      `SELECT *, (select count(*) from comments where posts.id = comments.postId ) AS numOfComments FROM posts order by id desc limit 2 offset ${
+        (offset - 1) * 2
+      }`
     );
-
-    console.log(posts);
-
-    // 댓글 갯수 보내기 공부
 
     res.status(200).json(posts);
   } catch (err) {
@@ -53,8 +51,10 @@ async function httpAddPost(req, res) {
 
 async function httpEditPost(req, res) {
   const { postId } = req.params;
-  const { content, imgUrl } = req.body;
+  const { content } = req.body;
+  const imgUrl = req.file.location;
   const { id } = req.user;
+
   try {
     const prevPost = await Post.findOne({ where: { id: postId, userId: id } });
 
@@ -78,7 +78,7 @@ async function httpEditPost(req, res) {
       }
     );
 
-    return res.status(204).send();
+    return res.status(204).send("rrrr");
   } catch (err) {
     console.log(err);
   }
