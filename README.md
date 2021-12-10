@@ -22,7 +22,33 @@
 링크:
 
 ## API
+![api1](https://user-images.githubusercontent.com/87404676/145560304-c9607617-fa4a-4780-bf51-b3913d090767.JPG)
+![api2](https://user-images.githubusercontent.com/87404676/145560343-2390a70e-5ae8-4f2b-8e72-71a0ec8c4b5f.JPG)
 
+## 기술 스택 및 개발 환경
+`FE`
+ * React.js
+ * Redux
+ * React-outer-dom
+ * Material UI
+ 
+ `BE`
+ * Node.js
+ * Express.js
+ * Passport.js
+ * JsonWebToken
+ * Multer
+
+`DBMS`
+ * My SQL
+ * Sequelize
+ * Sequelize-cli
+
+`Deploy`
+ * AWS EC2 (Ubuntu 18.04LTS)
+ * AWS S3
+
+## 
 
 
 
