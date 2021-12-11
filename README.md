@@ -19,7 +19,8 @@
 
 
 ## 웹사이트
-링크:
+링크: http://hanghaelog.shop/
+s3링크: http://mini--hanghaelog.s3-website.ap-northeast-2.amazonaws.com/
 
 ## 데모 영상
 링크:
