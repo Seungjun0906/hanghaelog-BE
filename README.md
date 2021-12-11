@@ -41,8 +41,9 @@
 `FE`
  * React.js
  * Redux
- * React-outer-dom
+ * React-router-dom
  * Material UI
+ * Axios
  
  `BE`
  * Node.js
