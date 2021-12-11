@@ -37,7 +37,7 @@ s3링크: http://mini--hanghaelog.s3-website.ap-northeast-2.amazonaws.com/
 | DELETE POST    | DELETE | /api/posts/:postId                     |                                               | code:204                                                                                                     |
 | GET COMMENTS   | GET    | /api/posts/:postId/comments            |                                               | comment {          id,          userId          postId,          comment,          nickname,          }      |
 | WRTIE COMMENT  | POST   | /api/posts/:postId/comments            | {  comment }                                  | {  comment,  code:201, }                                                                                     |
-
+| DELETE COMMENT  | DELETE | /api/posts/:postId/comments           | {  comment }                                  | {  comment,  code:201, }                
 ## 기술 스택 및 개발 환경
 `FE`
  * React.js
