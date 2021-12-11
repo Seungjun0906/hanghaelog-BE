@@ -25,9 +25,17 @@
 링크:
 
 ## API
-<img width="70%" height="70%" src = "https://user-images.githubusercontent.com/87404676/145560304-c9607617-fa4a-4780-bf51-b3913d090767.JPG"/>
-<img width="70%" height="70%" src = "https://user-images.githubusercontent.com/87404676/145560343-2390a70e-5ae8-4f2b-8e72-71a0ec8c4b5f.JPG"/>
-
+|                | Method | URL                                    | REQ                                           | RES                                                                                                          |
+|----------------|--------|----------------------------------------|-----------------------------------------------|--------------------------------------------------------------------------------------------------------------|
+| REGISTER       | POST   | /api/auth/register                     | {  email  nickname  password  passwordCheck } | code 201                                                                                                     |
+| LOGIN          | POST   | /api/auth/login                        | {  email  password }                          | {  token  user{       id,       nickname       } }                                                           |
+| GET USER       | GET    | /api/auth                              | headers:{  authorization:token }              | {  id:user.id  nickname }                                                                                    |
+| GET POSTS      | GET    | /api/posts                             |                                               | post{      id,      userId      nickname      createdAt      content      imgUrl      numOfComments      }   |
+| WRITE POST     | POST   | /api/posts                             | {  imgUrl,  content }                         | {  post  code:201 }                                                                                          |
+| EDIT POST      | PUT    | /api/posts/:postId                     | {  content,  imgUrl }                         | code:204                                                                                                     |
+| DELETE POST    | DELETE | /api/posts/:postId                     |                                               | code:204                                                                                                     |
+| GET COMMENTS   | GET    | /api/posts/:postId/comments            |                                               | comment {          id,          userId          postId,          comment,          nickname,          }      |
+| WRTIE COMMENT  | POST   | /api/posts/:postId/comments            | {  comment }                                  | {  comment,  code:201, }                                                                                     |
 
 ## 기술 스택 및 개발 환경
 `FE`
@@ -53,7 +61,4 @@
  * AWS S3
 
 
-| First Header  | Second Header |
-| ------------- | ------------- |
-| Content Cell  | Content Cell  |
-| Content Cell  | Content Cell  |
+
